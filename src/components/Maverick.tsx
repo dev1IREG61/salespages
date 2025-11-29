@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import Workbook from "./Workbook";
+import { fetchLandingPageData, type SalesPages } from "../types/maverick";
 
 const styles = `
   @keyframes scroll {
@@ -32,6 +33,19 @@ export default function TaxAdvisorLandingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [showWorkbook, setShowWorkbook] = useState(false);
+  const [pageData, setPageData] = useState<SalesPages | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchLandingPageData()
+      .then((data) => {
+        setPageData(data);
+        setLoading(false);
+      })
+      .catch(console.error);
+  }, []);
+
+  console.log(pageData);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -80,6 +94,14 @@ export default function TaxAdvisorLandingPage() {
 
   if (showWorkbook) {
     return <Workbook />;
+  }
+
+  if (loading) {
+    return (
+      <div className="geometric-bg text-white fixed inset-0 w-screen h-screen flex items-center justify-center">
+        <div className="text-2xl">Loading...</div>
+      </div>
+    );
   }
 
   return (
@@ -628,7 +650,14 @@ export default function TaxAdvisorLandingPage() {
               <p className="text-yellow-500 mb-6 font-semibold">
                 DECEMBER 16-17, 2025 9AM-5PM CST
               </p>
-              <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); setShowModal(false); setShowWorkbook(true); }}>
+              <form
+                className="space-y-4"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  setShowModal(false);
+                  setShowWorkbook(true);
+                }}
+              >
                 <div>
                   <label className="block text-white font-medium mb-1">
                     First Name*

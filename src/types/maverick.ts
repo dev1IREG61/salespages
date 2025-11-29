@@ -1,0 +1,118 @@
+// ===== Type Definitions =====
+export interface SalesPages {
+  [key: string]: any;
+}
+
+export interface ApiResponse {
+  items: SalesPages[];
+}
+
+export interface FeaturesPageData {
+  [key: string]: any;
+}
+
+export interface FeaturesPageApiResponse {
+  items: FeaturesPageData[];
+}
+
+// ===== API Service Functions =====
+const isDevelopment = import.meta.env.DEV;
+const frontendUrl = isDevelopment
+  ? "http://localhost:5173"
+  : "https://salespages.vercel.app";
+
+const baseApiUrl = isDevelopment
+  ? "/blogs/api/v2"
+  : "https://esign-admin.signmary.com/blogs/api/v2";
+
+export const fetchLandingPageData = async (): Promise<SalesPages> => {
+  try {
+    const apiUrl = `${baseApiUrl}/sales-pages/`;
+
+    const response = await fetch(apiUrl, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Frontend-Url": frontendUrl,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch landing page data: ${response.status} ${response.statusText}`
+      );
+    }
+
+    const data: ApiResponse = await response.json();
+
+    if (!data || !data.items || data.items.length === 0) {
+      throw new Error("No landing page data available");
+    }
+
+    return data.items[0];
+  } catch (error) {
+    console.error("Error fetching landing page data:", error);
+    throw error;
+  }
+};
+
+// ===== NEW: Fetch all FeaturesPages =====
+export const fetchAllFeaturesPages = async (): Promise<FeaturesPageData[]> => {
+  try {
+    const apiUrl = `${baseApiUrl}/features-pages/`;
+
+    const response = await fetch(apiUrl, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Frontend-Url": frontendUrl,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch features pages: ${response.status} ${response.statusText}`
+      );
+    }
+
+    const data: FeaturesPageApiResponse = await response.json();
+
+    if (!data || !data.items) {
+      return [];
+    }
+
+    return data.items;
+  } catch (error) {
+    console.error("Error fetching features pages:", error);
+    return [];
+  }
+};
+
+// ===== NEW: Fetch single FeaturesPage by ID or slug =====
+export const fetchFeaturesPageById = async (
+  id: number
+): Promise<FeaturesPageData> => {
+  try {
+    const apiUrl = `${baseApiUrl}/features-pages/${id}/`;
+
+    const response = await fetch(apiUrl, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Frontend-Url": frontendUrl,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch features page: ${response.status} ${response.statusText}`
+      );
+    }
+
+    const data: FeaturesPageData = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching features page:", error);
+    throw error;
+  }
+};
