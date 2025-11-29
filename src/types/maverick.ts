@@ -27,7 +27,7 @@ const baseApiUrl = isDevelopment
 
 export const fetchLandingPageData = async (): Promise<SalesPages | null> => {
   try {
-    const apiUrl = `${baseApiUrl}/sales-pages/`;
+    const apiUrl = `${baseApiUrl}/sales-pages/?fields=*`;
 
     const response = await fetch(apiUrl, {
       method: "GET",
