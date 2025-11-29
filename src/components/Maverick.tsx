@@ -323,7 +323,7 @@ export default function TaxAdvisorLandingPage() {
 
         {/* Meet Your Speakers */}
         <div className="container mx-auto px-4 py-16">
-          <div className="border-2 border-white rounded-full py-3 px-8 text-center inline-block mx-auto mb-12 block w-fit">
+          <div className="border-2 border-dashed border-yellow-500 rounded-full py-3 px-8 text-center inline-block mx-auto mb-12 block w-fit">
             <h2 className="text-2xl font-bold">
               {pageData?.images_gallery_section?.heading ||
                 "MEET YOUR SPEAKERS"}
