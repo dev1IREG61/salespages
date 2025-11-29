@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import Workbook from "./Workbook";
-import { fetchLandingPageData, prependImageUrl, type SalesPages } from "../types/maverick";
+import {
+  fetchLandingPageData,
+  prependImageUrl,
+  type SalesPages,
+} from "../types/maverick";
 
 const styles = `
   @keyframes scroll {
@@ -194,7 +198,10 @@ export default function TaxAdvisorLandingPage() {
               </div>
               <div>
                 <img
-                  src={prependImageUrl(pageData?.main_hero_section?.image?.url) || "/hero.webp"}
+                  src={
+                    prependImageUrl(pageData?.main_hero_section?.image?.url) ||
+                    "/hero.webp"
+                  }
                   alt="Workshop Hero"
                   className="rounded-lg shadow-2xl w-full"
                 />
@@ -215,7 +222,7 @@ export default function TaxAdvisorLandingPage() {
                   (item: any, i: number) => (
                     <div key={i} className="flex items-center gap-3">
                       {item.icon ? (
-                        <i className={`${item.icon} text-gray-500 text-2xl`}></i>
+                        <i className={`${item.icon} text-white text-2xl`}></i>
                       ) : (
                         <svg
                           className="w-8 h-8 text-gray-500"
@@ -257,7 +264,9 @@ export default function TaxAdvisorLandingPage() {
             </div>
 
             {(() => {
-              const groupedCards: { [key: string]: { title: string; cards: any[] } } = {};
+              const groupedCards: {
+                [key: string]: { title: string; cards: any[] };
+              } = {};
               pageData?.card_sections?.cards?.forEach((card: any) => {
                 const dayKey = card.title.toUpperCase().trim();
                 if (!groupedCards[dayKey]) {
@@ -268,7 +277,9 @@ export default function TaxAdvisorLandingPage() {
               return Object.values(groupedCards).map((group, idx) => (
                 <div
                   key={idx}
-                  className={`${idx < Object.values(groupedCards).length - 1 ? "mb-8" : ""} bg-gradient-to-br from-gray-700 to-gray-800 p-6 md:p-8 rounded-xl shadow-lg border border-gray-600`}
+                  className={`${
+                    idx < Object.values(groupedCards).length - 1 ? "mb-8" : ""
+                  } bg-gradient-to-br from-gray-700 to-gray-800 p-6 md:p-8 rounded-xl shadow-lg border border-gray-600`}
                 >
                   <div className="flex items-center gap-4 mb-6">
                     <div className="bg-gradient-to-br from-gray-600 to-gray-700 text-white font-bold px-6 py-3 rounded-lg text-xl border border-gray-500">
@@ -282,12 +293,14 @@ export default function TaxAdvisorLandingPage() {
                           {card.subtitle}
                         </h3>
                         <ul className="space-y-2 text-sm text-gray-300">
-                          {card.description?.split("\n").map((line: string, j: number) => (
-                            <li key={j} className="flex items-start gap-2">
-                              <span className="text-yellow-500 mt-1">•</span>
-                              <span>{line.replace(/^•\s*/, "")}</span>
-                            </li>
-                          ))}
+                          {card.description
+                            ?.split("\n")
+                            .map((line: string, j: number) => (
+                              <li key={j} className="flex items-start gap-2">
+                                <span className="text-yellow-500 mt-1">•</span>
+                                <span>{line.replace(/^•\s*/, "")}</span>
+                              </li>
+                            ))}
                         </ul>
                       </div>
                     ))}
