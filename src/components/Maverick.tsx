@@ -252,39 +252,45 @@ export default function TaxAdvisorLandingPage() {
               </h2>
             </div>
 
-            {pageData?.card_sections?.cards?.map((card: any, idx: number) => (
-              <div
-                key={idx}
-                className={`${
-                  idx < (pageData?.card_sections?.cards?.length || 0) - 1
-                    ? "mb-8"
-                    : ""
-                } bg-gradient-to-br from-gray-700 to-gray-800 p-6 md:p-8 rounded-xl shadow-lg border border-gray-600`}
-              >
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="bg-gradient-to-br from-gray-600 to-gray-700 text-white font-bold px-6 py-3 rounded-lg text-xl border border-gray-500">
-                    {card.title}
+            {(() => {
+              const groupedCards: { [key: string]: { title: string; cards: any[] } } = {};
+              pageData?.card_sections?.cards?.forEach((card: any) => {
+                const dayKey = card.title.toUpperCase().trim();
+                if (!groupedCards[dayKey]) {
+                  groupedCards[dayKey] = { title: card.title, cards: [] };
+                }
+                groupedCards[dayKey].cards.push(card);
+              });
+              return Object.values(groupedCards).map((group, idx) => (
+                <div
+                  key={idx}
+                  className={`${idx < Object.values(groupedCards).length - 1 ? "mb-8" : ""} bg-gradient-to-br from-gray-700 to-gray-800 p-6 md:p-8 rounded-xl shadow-lg border border-gray-600`}
+                >
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="bg-gradient-to-br from-gray-600 to-gray-700 text-white font-bold px-6 py-3 rounded-lg text-xl border border-gray-500">
+                      {group.title}
+                    </div>
+                  </div>
+                  <div className="space-y-6">
+                    {group.cards.map((card: any, i: number) => (
+                      <div key={i}>
+                        <h3 className="text-yellow-500 font-bold text-lg mb-3">
+                          {card.subtitle}
+                        </h3>
+                        <ul className="space-y-2 text-sm text-gray-300">
+                          {card.description?.split("\n").map((line: string, j: number) => (
+                            <li key={j} className="flex items-start gap-2">
+                              <span className="text-yellow-500 mt-1">•</span>
+                              <span>{line.replace(/^•\s*/, "")}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
                   </div>
                 </div>
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="text-yellow-500 font-bold text-lg mb-3">
-                      {card.subtitle}
-                    </h3>
-                    <ul className="space-y-2 text-sm text-gray-300">
-                      {card.description
-                        ?.split("\n")
-                        .map((line: string, i: number) => (
-                          <li key={i} className="flex items-start gap-2">
-                            <span className="text-yellow-500 mt-1">•</span>
-                            <span>{line.replace(/^•\s*/, "")}</span>
-                          </li>
-                        ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            ))}
+              ));
+            })()}
 
             <div className="text-center mt-12">
               <p className="text-2xl font-bold text-white">
