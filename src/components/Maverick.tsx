@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import Workbook from "./Workbook";
+import IconRenderer from "./IconRenderer";
 import {
   fetchLandingPageData,
   prependImageUrl,
@@ -222,7 +223,10 @@ export default function TaxAdvisorLandingPage() {
                   (item: any, i: number) => (
                     <div key={i} className="flex items-center gap-3">
                       {item.icon ? (
-                        <i className={`${item.icon} text-white text-2xl`}></i>
+                        <IconRenderer
+                          iconPath={item.icon}
+                          className="w-8 h-8 text-white"
+                        />
                       ) : (
                         <svg
                           className="w-8 h-8 text-gray-500"

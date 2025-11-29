@@ -1,4 +1,3 @@
-import React from "react";
 import * as FiIcons from "react-icons/fi";
 import * as FaIcons from "react-icons/fa";
 import * as MdIcons from "react-icons/md";
@@ -16,7 +15,6 @@ import * as TbIcons from "react-icons/tb";
 import * as TiIcons from "react-icons/ti";
 import * as LuIcons from "lucide-react";
 
-// Combine all icons into one object
 const ALL_ICONS: Record<string, any> = {
   ...FiIcons,
   ...FaIcons,
@@ -36,30 +34,23 @@ const ALL_ICONS: Record<string, any> = {
   ...LuIcons,
 };
 
-interface EasyIconProps {
-  icon: string; // Just pass the icon name like "FiStar" or "FaRocket"
-  size?: number;
-  color?: string;
+interface IconRendererProps {
+  iconPath: string;
   className?: string;
 }
 
-const EasyIcon: React.FC<EasyIconProps> = ({
-  icon,
-  size = 24,
-  color,
+export default function IconRenderer({
+  iconPath,
   className = "",
-}) => {
-  // Find the icon component
-  const IconComponent = ALL_ICONS[icon as keyof typeof ALL_ICONS] as any;
+}: IconRendererProps) {
+  if (!iconPath) return null;
 
-  if (!IconComponent || typeof IconComponent !== 'function') {
-    console.warn(`Icon "${icon}" not found. Using fallback.`);
-    return (
-      <FiIcons.FiHelpCircle size={size} color={color} className={className} />
-    );
+  const [_, iconName] = iconPath.split("/");
+  const IconComponent = ALL_ICONS[iconName];
+
+  if (!IconComponent || typeof IconComponent !== "function") {
+    return null;
   }
 
-  return <IconComponent size={size} color={color} className={className} />;
-};
-
-export default EasyIcon;
+  return <IconComponent className={className} />;
+}
