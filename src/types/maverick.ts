@@ -25,7 +25,7 @@ const baseApiUrl = isDevelopment
   ? "/blogs/api/v2"
   : "https://esign-admin.signmary.com/blogs/api/v2";
 
-export const fetchLandingPageData = async (): Promise<SalesPages> => {
+export const fetchLandingPageData = async (): Promise<SalesPages | null> => {
   try {
     const apiUrl = `${baseApiUrl}/sales-pages/`;
 
@@ -38,21 +38,20 @@ export const fetchLandingPageData = async (): Promise<SalesPages> => {
     });
 
     if (!response.ok) {
-      throw new Error(
-        `Failed to fetch landing page data: ${response.status} ${response.statusText}`
-      );
+      console.error(`Failed to fetch landing page data: ${response.status}`);
+      return null;
     }
 
     const data: ApiResponse = await response.json();
 
     if (!data || !data.items || data.items.length === 0) {
-      throw new Error("No landing page data available");
+      return null;
     }
 
     return data.items[0];
   } catch (error) {
     console.error("Error fetching landing page data:", error);
-    throw error;
+    return null;
   }
 };
 
