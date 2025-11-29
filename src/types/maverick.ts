@@ -25,6 +25,14 @@ const baseApiUrl = isDevelopment
   ? "/blogs/api/v2"
   : "https://esign-admin.signmary.com/blogs/api/v2";
 
+const imageBaseUrl = "https://esign-admin.signmary.com";
+
+export const prependImageUrl = (url: string | undefined) => {
+  if (!url) return url;
+  if (url.startsWith('http')) return url;
+  return `${imageBaseUrl}${url}`;
+};
+
 export const fetchLandingPageData = async (): Promise<SalesPages | null> => {
   try {
     const apiUrl = `${baseApiUrl}/sales-pages/?fields=*`;

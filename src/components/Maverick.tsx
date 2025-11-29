@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import Workbook from "./Workbook";
-import { fetchLandingPageData, type SalesPages } from "../types/maverick";
+import { fetchLandingPageData, prependImageUrl, type SalesPages } from "../types/maverick";
 
 const styles = `
   @keyframes scroll {
@@ -194,7 +194,7 @@ export default function TaxAdvisorLandingPage() {
               </div>
               <div>
                 <img
-                  src={pageData?.main_hero_section?.image?.url || "/hero.webp"}
+                  src={prependImageUrl(pageData?.main_hero_section?.image?.url) || "/hero.webp"}
                   alt="Workshop Hero"
                   className="rounded-lg shadow-2xl w-full"
                 />
@@ -336,7 +336,7 @@ export default function TaxAdvisorLandingPage() {
               .map((img: any, i: number) => (
                 <div key={i} className="text-center">
                   <img
-                    src={img.image?.url || "/placeholder.webp"}
+                    src={prependImageUrl(img.image?.url) || "/placeholder.webp"}
                     alt={img.caption || "Speaker"}
                     className="w-64 h-64 rounded-full mx-auto object-cover"
                   />
@@ -402,7 +402,7 @@ export default function TaxAdvisorLandingPage() {
             {pageData.reusable_sections[0].image && (
               <div className="max-w-4xl mx-auto mb-12">
                 <img
-                  src={pageData.reusable_sections[0].image.url}
+                  src={prependImageUrl(pageData.reusable_sections[0].image.url)}
                   alt="Workshop Preview"
                   className="rounded-lg mx-auto"
                 />
