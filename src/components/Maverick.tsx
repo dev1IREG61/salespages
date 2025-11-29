@@ -214,13 +214,17 @@ export default function TaxAdvisorLandingPage() {
                 {pageData?.featured_on_section?.items?.map(
                   (item: any, i: number) => (
                     <div key={i} className="flex items-center gap-3">
-                      <svg
-                        className="w-8 h-8 text-gray-500"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                      >
-                        <circle cx="12" cy="12" r="10" />
-                      </svg>
+                      {item.icon ? (
+                        <i className={`${item.icon} text-gray-500 text-2xl`}></i>
+                      ) : (
+                        <svg
+                          className="w-8 h-8 text-gray-500"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                        >
+                          <circle cx="12" cy="12" r="10" />
+                        </svg>
+                      )}
                       <span className="text-gray-500 text-2xl font-bold whitespace-nowrap">
                         {item.name}
                       </span>
