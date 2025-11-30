@@ -4,8 +4,10 @@ import Workbook from "./Workbook";
 import IconRenderer from "./IconRenderer";
 import {
   fetchLandingPageData,
+  fetchAllFeaturesPages,
   prependImageUrl,
   type SalesPages,
+  type FeaturesPageData,
 } from "../types/maverick";
 
 const styles = `
@@ -39,18 +41,24 @@ export default function TaxAdvisorLandingPage() {
   const [showModal, setShowModal] = useState(false);
   const [showWorkbook, setShowWorkbook] = useState(false);
   const [pageData, setPageData] = useState<SalesPages | null>(null);
+  const [featuresData, setFeaturesData] = useState<FeaturesPageData[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchLandingPageData()
-      .then((data) => {
-        setPageData(data);
+    Promise.all([
+      fetchLandingPageData(),
+      fetchAllFeaturesPages()
+    ])
+      .then(([landingData, featuresData]) => {
+        setPageData(landingData);
+        setFeaturesData(featuresData);
         setLoading(false);
       })
       .catch(console.error);
   }, []);
 
-  console.log(pageData);
+  console.log('Landing Page Data:', pageData);
+  console.log('Features Pages Data:', featuresData);
 
   useEffect(() => {
     const timer = setInterval(() => {
