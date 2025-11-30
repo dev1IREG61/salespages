@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { Lock } from "lucide-react";
 
+interface WorkbookProps {
+  data: any;
+}
+
 const styles = `
   .geometric-bg {
     background-color: #000000;
@@ -21,7 +25,7 @@ const styles = `
   }
 `;
 
-export default function WorkbookOfferPage() {
+export default function WorkbookOfferPage({ data }: WorkbookProps) {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -44,7 +48,7 @@ export default function WorkbookOfferPage() {
       <div className="bg-black text-white fixed inset-0 w-screen h-screen overflow-y-auto">
         {/* Top Yellow Banner */}
         <div className="bg-yellow-500 text-black text-center py-2 px-4 font-bold text-xl">
-          <u>YOUR SPOT IS SECURED!</u> BUT WAIT... CLAIM YOUR WORKBOOK & REPLAY!
+          <u>{data?.header_line_before}</u>
         </div>
 
         {/* Hero Section */}
@@ -53,43 +57,29 @@ export default function WorkbookOfferPage() {
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div>
                 <h1 className="text-3xl md:text-4xl font-bold mb-4">
-                  GET YOUR WORKSHOP
-                  <br />
-                  <span className="text-yellow-500">WORKBOOK & REPLAY</span>
-                  <br />
-                  <span className="text-white">NOW FOR ONLY $17</span>
+                  {data?.header_title}
                 </h1>
                 <p className="text-yellow-500 font-bold mb-6">
-                  (Normally $25-$197)
+                  {data?.header_subtitle}
                 </p>
 
                 <p className="text-gray-300 text-sm mb-6">
-                  You're in! Your spot is reserved for the workshop. But your
-                  path from tax preparer to $100K/month tax advisor doesn't have
-                  to wait until December 16th. You can start RIGHT NOW with the
-                  exclusive workshop workbook and instant replay access.
-                </p>
-
-                <p className="text-gray-300 text-sm mb-6">
-                  Don't just take notes during the live event - get the complete
-                  implementation blueprint that's already transformed hundreds
-                  of tax professionals into six-figure advisors.
+                  {data?.header_description}
                 </p>
 
                 <button className="bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-bold py-3 px-8 rounded-full hover:scale-105 transition-transform">
-                  🎯 CLAIM YOUR COPY - JUST $17!
+                  {data?.header_cta_text}
                 </button>
 
                 <p className="text-xs text-gray-400 mt-4">
-                  This one-time offer is only available on this page. Don't miss
-                  out!
+                  {data?.header_line_after_button}
                 </p>
               </div>
 
               <div className="relative">
                 <iframe
                   className="w-full aspect-video rounded-lg border-4 border-yellow-500"
-                  src="https://www.youtube.com/embed/_wux3uZotVg"
+                  src={data?.header_video?.video_url?.replace('youtu.be/', 'www.youtube.com/embed/')}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 ></iframe>
@@ -104,69 +94,39 @@ export default function WorkbookOfferPage() {
             <div className="border-2 border-white rounded-lg p-1 mb-8">
               <div className="bg-black p-6 rounded">
                 <h2 className="text-2xl font-bold text-center mb-8">
-                  WHAT'S INCLUDED IN YOUR GOLD VIP ACCESS:
+                  {data?.how_it_works_heading}
                 </h2>
 
                 <div className="grid md:grid-cols-2 gap-8">
                   {/* Left Column */}
                   <div>
                     <h3 className="text-yellow-500 font-bold text-xl mb-6">
-                      WHAT YOU GET
+                      {data?.how_it_works_steps?.steps?.[0]?.content?.[0]?.title}
                     </h3>
 
                     <div className="space-y-6">
-                      <div className="border-b border-gray-700 pb-4">
-                        <p className="text-white font-bold mb-2">
-                          Full 2-Day Workbook w/ Recording (Value: $197 + Tax)
-                        </p>
-                      </div>
-
-                      <div className="border-b border-gray-700 pb-4">
-                        <p className="text-white font-bold mb-2">
-                          EBook Tax Advisory Workbook (Value: $197)
-                        </p>
-                      </div>
-
-                      <div className="pb-4">
-                        <p className="text-white font-bold mb-2">
-                          Virtual Roadmap - Build MY Funnel
-                        </p>
-                      </div>
+                      {data?.how_it_works_steps?.steps?.[0]?.content?.[0]?.description?.split('\n\n').map((item: string, idx: number) => (
+                        <div key={idx} className="border-b border-gray-700 pb-4">
+                          <p className="text-white font-bold mb-2">
+                            {item}
+                          </p>
+                        </div>
+                      ))}
                     </div>
                   </div>
 
                   {/* Right Column */}
                   <div>
                     <h3 className="text-yellow-500 font-bold text-xl mb-6">
-                      WHY IT MATTERS
+                      {data?.how_it_works_steps?.steps?.[1]?.content?.[0]?.title}
                     </h3>
 
                     <div className="space-y-6 text-gray-300 text-sm">
-                      <div className="border-b border-gray-700 pb-4">
-                        <p>
-                          Lifetime access every valuable session, and precisely
-                          address you down during the training, real-time, and
-                          understand Step by Step at your own pace.
-                        </p>
-                      </div>
-
-                      <div className="border-b border-gray-700 pb-4">
-                        <p>
-                          This isn't just a workbook. It's your step-by-step
-                          implementation blueprint built to help you take real
-                          action, win high-value clients, and structures where
-                          that wins.
-                        </p>
-                      </div>
-
-                      <div className="pb-4">
-                        <p>
-                          Your Done VIP Upload Blueprint in more than a visual
-                          upgrade. It's your proof of authority. You can present
-                          the system with clients, improve your professional
-                          brand, and establish client confidence.
-                        </p>
-                      </div>
+                      {data?.how_it_works_steps?.steps?.[1]?.content?.[0]?.description?.split('\n\n').map((item: string, idx: number) => (
+                        <div key={idx} className="border-b border-gray-700 pb-4">
+                          <p>{item}</p>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -175,9 +135,9 @@ export default function WorkbookOfferPage() {
 
             <div className="text-center">
               <button className="bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-bold py-4 px-8 rounded-full text-lg hover:scale-105 transition-transform">
-                UPGRADE NOW & GET INSTANT ACCESS FOR $17
+                {data?.secondary_cta_buttons?.[0]?.text}
               </button>
-              <p className="text-xs text-gray-400 mt-3">(Normally $25-$197)</p>
+              <p className="text-xs text-gray-400 mt-3">{data?.header_subtitle}</p>
             </div>
           </div>
         </div>
@@ -186,20 +146,19 @@ export default function WorkbookOfferPage() {
         <div className="bg-white py-16 px-4">
           <div className="container mx-auto max-w-4xl border border-gray-300 rounded-lg p-8 shadow-2xl">
             <div className="flex flex-col md:flex-row justify-center items-center gap-8 mb-8">
-              <img src="/workbook.webp" />
+              <img src={`http://salespages.vercel.app${data?.card_sections?.items?.[0]?.card_image?.url}`} alt={data?.card_sections?.items?.[0]?.card_image?.title} />
             </div>
 
             <div className="bg-yellow-500 text-black text-center py-4 px-6 rounded-lg font-bold mb-6">
-              This isn't another bonus – it's the $17 shortcut to transforming
-              your firm from transactional to transformational.
+              {data?.card_sections?.items?.[0]?.subtitle}
             </div>
 
             <div className="text-center">
               <button className="bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-bold py-3 px-8 rounded-full hover:scale-105 transition-transform">
-                🎯 Claim Your Gold VIP Access Now
+                {data?.card_sections?.items?.[0]?.button_text}
               </button>
               <p className="text-gray-600 text-xs mt-3">
-                Or return later and miss the best deal available
+                {data?.card_sections?.items?.[0]?.description}
               </p>
             </div>
           </div>
@@ -209,54 +168,14 @@ export default function WorkbookOfferPage() {
         <div className="geometric-bg py-16 px-4">
           <div className="container mx-auto max-w-4xl text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              <span className="text-yellow-500">
-                $100K TAX ADVISORY WORKBOOK
-              </span>{" "}
-              <span className="text-white">($197 VALUE)</span>
+              {data?.pricing_heading}
             </h2>
-            <p className="text-xl mb-8">
-              This workbook is your implementation engine. Inside, you'll be
-              guided to:
-            </p>
-
-            <div className="text-left max-w-2xl mx-auto space-y-3 mb-8">
-              <div className="flex items-start gap-3">
-                <span className="text-green-500 text-xl">✓</span>
-                <p className="text-gray-300">
-                  Build your first (or next) $9K–$25K offer
-                </p>
-              </div>
-              <div className="flex items-start gap-3">
-                <span className="text-green-500 text-xl">✓</span>
-                <p className="text-gray-300">
-                  Access the C.A.R.E. Formula for closing high-ticket clients
-                  (this alone is worth the upgrade)
-                </p>
-              </div>
-              <div className="flex items-start gap-3">
-                <span className="text-green-500 text-xl">✓</span>
-                <p className="text-gray-300">
-                  Use checklists, scripts, and prompts that elevate conversion
-                  and boost compliance
-                </p>
-              </div>
-              <div className="flex items-start gap-3">
-                <span className="text-green-500 text-xl">✓</span>
-                <p className="text-gray-300">
-                  Create your own "favorite client" dashboard and scaling
-                  project
-                </p>
-              </div>
-            </div>
-
-            <p className="text-2xl font-bold text-yellow-500 mb-6">
-              It's not just about learning. It's about launching.
-            </p>
+            <div className="text-xl mb-8" dangerouslySetInnerHTML={{ __html: data?.pricing_description?.replace(/\n\n/g, '<br/><br/>').replace(/✓/g, '<span class="text-green-500 text-xl">✓</span>') }} />
 
             <button className="bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-bold py-4 px-8 rounded-full text-lg hover:scale-105 transition-transform">
-              🎯 CLAIM YOUR COPY - JUST $17!
+              {data?.pricing_cta_text}
             </button>
-            <p className="text-xs text-gray-400 mt-3">(Normally $25-$197)</p>
+            <p className="text-xs text-gray-400 mt-3">{data?.header_subtitle}</p>
           </div>
         </div>
 
@@ -264,37 +183,33 @@ export default function WorkbookOfferPage() {
         <div className="bg-white py-16 px-4">
           <div className="container mx-auto max-w-3xl text-center">
             <h2 className="text-4xl font-bold text-black mb-6">
-              DONT SIT THIS ONE OUT!
+              {data?.secondary_cta_heading}
             </h2>
 
             <div className="bg-black text-white p-6 rounded-lg mb-6">
               <p className="font-bold mb-4">
-                You didn't show up just to learn, you showed up to win.
+                {data?.secondary_cta_subheading}
               </p>
               <p className="text-sm text-gray-300">
-                Put yourself on the fast track to success with the best
-                strategies you've ever been introduced to and forget to-do
-                lists. Gold VIP gives you the steps, structure, and clarity to
-                go implement what works best.
+                {data?.secondary_cta_description}
               </p>
             </div>
 
             <div className="bg-gray-100 p-6 rounded-lg mb-6">
               <p className="text-black font-bold mb-2">
-                This offer will not be available after this page. If you leave
-                now, you may lose this opportunity for good.
+                {data?.secondary_cta_subdescription}
               </p>
             </div>
 
             <button className="bg-black text-yellow-500 font-bold py-3 px-8 rounded mb-4 hover:scale-105 transition-transform block w-full max-w-md mx-auto">
-              UPGRADE NOW & GET INSTANT ACCESS FOR $17
+              {data?.secondary_cta_buttons?.[0]?.text}
             </button>
 
             <button className="bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-bold py-3 px-8 rounded-full hover:scale-105 transition-transform block w-full max-w-md mx-auto">
-              🎯 Claim Your Gold VIP Access for $17
+              {data?.secondary_cta_buttons?.[1]?.text}
             </button>
             <p className="text-gray-600 text-xs mt-3">
-              Or return later and miss the best deal available
+              {data?.card_sections?.items?.[0]?.description}
             </p>
           </div>
         </div>
@@ -509,7 +424,7 @@ export default function WorkbookOfferPage() {
             </div>
 
             <p className="text-center text-xs text-gray-400 mt-6">
-              Or return later and miss the best deal available
+              {data?.card_sections?.items?.[0]?.description}
             </p>
           </div>
         </div>
@@ -517,20 +432,7 @@ export default function WorkbookOfferPage() {
         {/* Footer Disclaimer */}
         <div className="bg-black border-t border-gray-800 py-8 px-4">
           <div className="container mx-auto max-w-4xl text-center text-lg text-white space-y-4">
-            <p>
-              This site is not a part of the Facebook website or Facebook, Inc.
-              Additionally, this site is NOT endorsed by Facebook in any way.
-              FACEBOOK is a trademark of FACEBOOK, Inc.
-            </p>
-            <p>
-              DISCLAIMER: Your level of success in attaining the results you
-              desire depends on many factors, including (but not limited to) the
-              time you devote to the strategies discussed, your background,
-              experience, and work ethic. The average person who follows any
-              "how to" information gets little to no results. All business
-              entails risk and requires substantial and consistent effort. If
-              you're not willing to accept that, this training is not for you.
-            </p>
+            <div dangerouslySetInnerHTML={{ __html: data?.footer_config?.additional_footer_text?.replace(/\n\n/g, '</p><p>') }} />
           </div>
         </div>
       </div>
