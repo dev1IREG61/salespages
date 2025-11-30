@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Lock } from "lucide-react";
+import { prependImageUrl } from "../types/maverick";
 
 interface WorkbookProps {
   data: any;
@@ -146,7 +147,7 @@ export default function WorkbookOfferPage({ data }: WorkbookProps) {
         <div className="bg-white py-16 px-4">
           <div className="container mx-auto max-w-4xl border border-gray-300 rounded-lg p-8 shadow-2xl">
             <div className="flex flex-col md:flex-row justify-center items-center gap-8 mb-8">
-              <img src={`http://salespages.vercel.app${data?.card_sections?.items?.[0]?.card_image?.url}`} alt={data?.card_sections?.items?.[0]?.card_image?.title} />
+              <img src={prependImageUrl(data?.card_sections?.items?.[0]?.card_image?.url)} alt={data?.card_sections?.items?.[0]?.card_image?.title} />
             </div>
 
             <div className="bg-yellow-500 text-black text-center py-4 px-6 rounded-lg font-bold mb-6">
