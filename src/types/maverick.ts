@@ -123,3 +123,34 @@ export const fetchFeaturesPageById = async (
     throw error;
   }
 };
+
+
+export const fetchWorkbookPageData = async (): Promise<SalesPages | null> => {
+  try {
+    const apiUrl = `${baseApiUrl}/sales-pages/?slug=saleschild&fields=*`;
+
+    const response = await fetch(apiUrl, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Frontend-Url": frontendUrl,
+      },
+    });
+
+    if (!response.ok) {
+      console.error(`Failed to fetch workbook page data: ${response.status}`);
+      return null;
+    }
+
+    const data: ApiResponse = await response.json();
+
+    if (!data || !data.items || data.items.length === 0) {
+      return null;
+    }
+
+    return data.items[0];
+  } catch (error) {
+    console.error("Error fetching workbook page data:", error);
+    return null;
+  }
+};

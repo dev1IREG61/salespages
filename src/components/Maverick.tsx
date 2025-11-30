@@ -5,6 +5,7 @@ import IconRenderer from "./IconRenderer";
 import {
   fetchLandingPageData,
   fetchAllFeaturesPages,
+  fetchWorkbookPageData,
   prependImageUrl,
   type SalesPages,
   type FeaturesPageData,
@@ -41,17 +42,20 @@ export default function TaxAdvisorLandingPage() {
   const [showModal, setShowModal] = useState(false);
   const [showWorkbook, setShowWorkbook] = useState(false);
   const [pageData, setPageData] = useState<SalesPages | null>(null);
+  const [workbookData, setWorkbookData] = useState<SalesPages | null>(null);
   const [featuresData, setFeaturesData] = useState<FeaturesPageData[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     Promise.all([
       fetchLandingPageData(),
-      fetchAllFeaturesPages()
+      fetchAllFeaturesPages(),
+      fetchWorkbookPageData()
     ])
-      .then(([landingData, featuresData]) => {
+      .then(([landingData, featuresData, workbookData]) => {
         setPageData(landingData);
         setFeaturesData(featuresData);
+        setWorkbookData(workbookData);
         setLoading(false);
       })
       .catch(console.error);
@@ -106,7 +110,7 @@ export default function TaxAdvisorLandingPage() {
   // ];
 
   if (showWorkbook) {
-    return <Workbook data={pageData} />;
+    return <Workbook data={workbookData} />;
   }
 
   if (loading) {
