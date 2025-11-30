@@ -127,7 +127,7 @@ export const fetchFeaturesPageById = async (
 
 export const fetchWorkbookPageData = async (): Promise<SalesPages | null> => {
   try {
-    const apiUrl = `${baseApiUrl}/sales-pages/?slug=saleschild&fields=*`;
+    const apiUrl = `${baseApiUrl}/features-pages/`;
 
     const response = await fetch(apiUrl, {
       method: "GET",
