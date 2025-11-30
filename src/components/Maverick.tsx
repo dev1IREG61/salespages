@@ -106,7 +106,7 @@ export default function TaxAdvisorLandingPage() {
   // ];
 
   if (showWorkbook) {
-    return <Workbook />;
+    return <Workbook data={pageData} />;
   }
 
   if (loading) {
